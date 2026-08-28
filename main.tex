@@ -1,0 +1,1069 @@
+\documentclass[11pt]{article}
+
+% ============================================================
+% COMPILATION
+% ============================================================
+%
+% Required compiler: XeLaTeX
+%
+% Recommended build sequence:
+% XeLaTeX -> Biber -> XeLaTeX -> XeLaTeX
+%
+
+% ============================================================
+% DOCUMENT EDITION
+% ============================================================
+
+\newif\iftutornotes
+
+\tutornotestrue       % TA / Tutor edition
+% \tutornotesfalse    % Student edition
+
+% ============================================================
+% PACKAGES
+% ============================================================
+
+\usepackage[a4paper,margin=1in]{geometry}
+
+% XeLaTeX font system
+\usepackage{fontspec}
+\usepackage{unicode-math}
+
+\setmainfont{TeX Gyre Termes}
+\setsansfont{TeX Gyre Heros}
+\setmonofont{Latin Modern Mono}
+\setmathfont{TeX Gyre Termes Math}
+
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage[backend=biber,style=ieee]{biblatex}
+
+% ============================================================
+% DOCUMENT METADATA
+% ============================================================
+
+\newcommand{\CourseTitle}{Physical AI, TAICA}
+\newcommand{\InstructorName}{Human-centered Intelligent System Lab}
+\newcommand{\InstructorEmail}{National Yang Ming Chiao Tung University}
+
+\newcommand{\AssignmentTitle}{Homework N: Assignment Title}
+\newcommand{\Semester}{Fall 2026}
+
+% ============================================================
+% BIBLIOGRAPHY
+% ============================================================
+
+\addbibresource{refs.bib}
+
+% ============================================================
+% TABLE SETTINGS
+% ============================================================
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+% ============================================================
+% HYPERLINK SETTINGS
+% ============================================================
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!50!black,
+    citecolor=blue!50!black,
+    urlcolor=blue!50!black
+}
+
+% ============================================================
+% PAGE STYLE
+% ============================================================
+
+\setlength{\headheight}{14pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+
+\lhead{\CourseTitle}
+\rhead{\AssignmentTitle}
+\cfoot{\thepage}
+
+% ============================================================
+% LIST SETTINGS
+% ============================================================
+
+\setlist[itemize]{
+    topsep=3pt,
+    itemsep=2pt,
+    parsep=0pt,
+    leftmargin=1.5em
+}
+
+\setlist[enumerate]{
+    topsep=3pt,
+    itemsep=2pt,
+    parsep=0pt,
+    leftmargin=1.6em
+}
+
+% ============================================================
+% COLORS
+% ============================================================
+
+\definecolor{codebg}{RGB}{248,248,248}
+\definecolor{commentgreen}{RGB}{0,110,60}
+\definecolor{keywordblue}{RGB}{20,70,150}
+
+% A single restrained color for all internal teaching notes.
+\definecolor{tutorblue}{RGB}{65,88,110}
+\definecolor{tutorbg}{RGB}{247,249,251}
+
+% ============================================================
+% TA / TUTOR NOTE SYSTEM
+% ============================================================
+
+% All material intended only for teaching staff must use this
+% environment. Do not use separate teacher/grading/TA colors.
+%
+% In student mode, the complete environment body disappears.
+
+\NewDocumentEnvironment{tutornote}{+b}
+{%
+    \iftutornotes
+        \begin{tcolorbox}[
+            colback=tutorbg,
+            colframe=tutorblue,
+            boxrule=0.4pt,
+            arc=1mm,
+            left=7pt,
+            right=7pt,
+            top=6pt,
+            bottom=6pt,
+            before skip=8pt,
+            after skip=8pt
+        ]
+        {\small
+        \color{tutorblue}
+        \textbf{TA/Tutor Note.}\par
+        \medskip
+        #1}
+        \end{tcolorbox}
+    \fi
+}
+{}
+
+% Optional edition indicator.
+% It appears only in the teaching edition.
+
+\newcommand{\EditionLabel}{%
+    \iftutornotes
+        \begin{center}
+            {\small\color{tutorblue}
+            TA / Tutor Teaching Edition}
+        \end{center}
+        \vspace{0.5em}
+    \fi
+}
+
+% ============================================================
+% LISTINGS
+% ============================================================
+
+\lstdefinelanguage{turtle}{
+    alsoletter={:@},
+    morekeywords={
+        @prefix,
+        a,
+        owl:,
+        rdf:,
+        rdfs:,
+        xsd:
+    },
+    sensitive=true,
+    morecomment=[l]{\#},
+    morestring=[b]"
+}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    backgroundcolor=\color{codebg},
+    breaklines=true,
+    frame=single,
+    framerule=0.2pt,
+    rulecolor=\color{black!20},
+    keywordstyle=\color{keywordblue}\bfseries,
+    commentstyle=\color{commentgreen},
+    stringstyle=\color{black!70},
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false
+}
+
+\lstdefinestyle{codesnippet}{
+    numbers=none,
+    aboveskip=0.75\baselineskip,
+    belowskip=0.85\baselineskip,
+    frame=single,
+    framerule=0.2pt,
+    rulecolor=\color{black!20},
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false
+}
+
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+
+% ============================================================
+% TITLE
+% ============================================================
+
+\title{\textbf{\AssignmentTitle}}
+\author{
+    \InstructorName\\
+    \InstructorEmail
+}
+\date{\Semester}
+
+% ============================================================
+% DOCUMENT
+% ============================================================
+
+\begin{document}
+
+\maketitle
+\EditionLabel
+
+% ============================================================
+\section*{Introduction}
+% ============================================================
+
+This assignment introduces a selected topic through a combination of
+conceptual analysis, technical implementation, and documented results.
+Students are expected to produce a small but complete artifact that
+demonstrates the concepts introduced in class.
+
+The exact subject matter, required resources, and submission format should
+be adapted to the objectives of the course.
+
+\begin{tutornote}
+Use this space for teaching information that should not appear in the
+student handout.
+
+Typical content may include the pedagogical purpose of the assignment,
+connections to previous lectures, concepts that require additional
+explanation, or suggestions for conducting the tutorial session.
+
+The student-facing text should remain self-contained even when all such
+notes are removed.
+$$
+x+y=z
+$$
+\end{tutornote}
+
+% ============================================================
+\section{Context and Motivation}
+% ============================================================
+
+Explain the disciplinary or technical context of the assignment and why the
+problem matters.
+
+A useful conceptual structure is:
+
+\[
+\text{course concept}
+\longrightarrow
+\text{practical problem}
+\longrightarrow
+\text{student exercise}.
+\]
+
+Students should be able to understand how the assignment fits into the wider
+course rather than treating it as an isolated technical exercise.
+
+\begin{tutornote}
+During the tutorial, connect this section explicitly to the relevant lecture
+material. If students have difficulty identifying the purpose of the task,
+ask them first to distinguish the general course problem from the particular
+artifact they are being asked to construct.
+\end{tutornote}
+
+% ============================================================
+\section{Learning Objectives}
+% ============================================================
+
+After completing this assignment, students should be able to:
+
+\begin{enumerate}
+    \item explain the principal concepts introduced in the assignment;
+    \item distinguish several related conceptual categories;
+    \item construct a small technical or analytical artifact;
+    \item evaluate the resulting artifact using an explicit procedure;
+    \item document assumptions, methods, and results reproducibly;
+    \item discuss limitations and possible extensions.
+\end{enumerate}
+
+\begin{tutornote}
+When adapting this template, formulate learning objectives using observable
+actions such as \emph{identify}, \emph{construct}, \emph{compare},
+\emph{evaluate}, or \emph{justify}. These objectives should correspond to
+what is actually assessed later in the rubric.
+\end{tutornote}
+
+% ============================================================
+\section{Conceptual Foundation}
+% ============================================================
+
+\subsection*{Concept A}
+
+Introduce the first concept required for the assignment. Provide definitions,
+notation, examples, and references where appropriate
+\cite{example_reference}.
+
+\subsection*{Concept B}
+
+Introduce a second concept and explain how it differs from Concept A.
+The distinction should be relevant to the work students will perform.
+
+For example:
+
+\[
+A \neq B,
+\]
+
+even if the two concepts frequently occur together in practical systems.
+
+\begin{tutornote}
+This is an appropriate location for a fuller conceptual explanation that a
+TA or tutor may need when answering questions.
+
+It may contain several paragraphs, equations, or lists:
+
+\begin{itemize}
+    \item explain the intended distinction;
+    \item identify common misconceptions;
+    \item indicate what level of formal detail is expected;
+    \item record examples that may be used during discussion.
+\end{itemize}
+\end{tutornote}
+
+% ============================================================
+\section{Problem Statement}
+% ============================================================
+
+Assume a system containing several entities with observable attributes and
+relationships.
+
+Your task is to construct a model that represents the relevant entities,
+processes them according to the methods introduced in class, and produces
+results that can be independently inspected.
+
+Your solution must:
+
+\begin{enumerate}
+    \item represent the required entities;
+    \item implement at least one non-trivial relation or operation;
+    \item produce a reproducible result;
+    \item demonstrate the result using an appropriate query, test, or analysis;
+    \item explain the principal design decisions.
+\end{enumerate}
+
+\begin{tutornote}
+The distinction between ``non-trivial result'' and manually supplied output
+should be made explicit during the tutorial.
+
+A student should be able to explain which input facts, rules, transformations,
+or computations are responsible for the reported result.
+\end{tutornote}
+
+% ============================================================
+\section{Required Resources}
+% ============================================================
+
+The submitted work must contain, at minimum:
+
+\begin{itemize}
+    \item one primary model or data file;
+    \item human-readable names or annotations for major entities;
+    \item at least one explicit structural relation;
+    \item at least one result that is derived rather than manually copied;
+    \item at least one query, test, analysis, or validation procedure;
+    \item sufficient documentation for reproduction.
+\end{itemize}
+
+% ============================================================
+\section{Recommended Modeling Distinctions}
+% ============================================================
+
+A useful design principle is to distinguish the different kinds of entities
+represented in the system.
+
+{\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{L{0.20\linewidth}L{0.73\linewidth}}
+\toprule
+\textbf{Layer} & \textbf{Meaning} \\
+\midrule
+
+Type &
+A general category shared by multiple entities. \\
+
+Role &
+A context-dependent function that an entity performs in a task. \\
+
+Property &
+An attribute or relation describing an entity. \\
+
+Instance &
+A particular entity occurring in the dataset or environment. \\
+
+Derived result &
+A value or classification obtained through inference, computation, or
+analysis rather than directly supplied as input. \\
+
+\bottomrule
+\end{longtable}
+}
+
+\begin{tutornote}
+Replace these categories with distinctions appropriate to the assignment.
+
+The purpose of the table is pedagogical: it should expose distinctions that
+students are otherwise likely to collapse into a single informal category.
+\end{tutornote}
+
+% ============================================================
+\section{Base Example}
+% ============================================================
+
+Students may use the following generic structure as a starting point:
+
+\begin{lstlisting}[
+    caption={Generic structured-data example.},
+    label={lst:generic-example}
+]
+# Example only
+
+example01:
+    type: ExampleType
+    label: "Example entity"
+    value: 42
+    related_to: example02
+\end{lstlisting}
+
+The example is deliberately incomplete. Students should extend or replace it
+according to the requirements of the assignment.
+
+\begin{tutornote}
+Clarify how much modification is necessary for the example to constitute a
+student-authored solution. If merely copying the example would satisfy the
+formal requirements, the example is probably too complete.
+\end{tutornote}
+
+% ============================================================
+\section{Identifier or Namespace Policy}
+% ============================================================
+
+If the assignment uses identifiers, namespaces, package names, database
+schemas, URI patterns, or other globally scoped identifiers, define the
+convention here.
+
+For example:
+
+\begin{lstlisting}[style=codesnippet]
+shared:   https://example.edu/course/shared/
+groupNN:  https://example.edu/course/groupNN/
+\end{lstlisting}
+
+Shared resources should use the shared namespace. Student-created entities
+should use a group-specific namespace.
+
+% ============================================================
+\section{Input Data or Environment}
+% ============================================================
+
+Students must provide sufficient input data to demonstrate the required
+functionality.
+
+Input data should normally be stored separately from generated results.
+
+A minimal example might be:
+
+\begin{lstlisting}[style=codesnippet]
+item01:
+    type: Example
+    label: "Example item"
+    value: 42
+\end{lstlisting}
+
+% ============================================================
+\section{Required Processing or Reasoning Pattern}
+% ============================================================
+
+The assignment should contain at least one relationship whose result is not
+simply asserted manually. Students should be able to explain the same modeling
+commitment at the conceptual, formal, and implementation levels.
+
+Suppose the assignment introduces the following general pattern:
+
+\begin{quote}
+An entity is classified as a \emph{DerivedEntity} if it is a
+\emph{BaseEntity} and participates in at least one
+\emph{relevantRelation} with an entity of type \emph{RelatedEntity}.
+\end{quote}
+
+At the predicate-logic level, this may be written as:
+
+\[
+\mathrm{DerivedEntity}(x)
+\iff
+\mathrm{BaseEntity}(x)
+\land
+\exists y\,
+\bigl(
+    \mathrm{relevantRelation}(x,y)
+    \land
+    \mathrm{RelatedEntity}(y)
+\bigr).
+\]
+
+The same condition can be represented more compactly in Description Logic as:
+
+\[
+\boxed{
+\mathsf{DerivedEntity}
+\equiv
+\mathsf{BaseEntity}
+\sqcap
+\exists\,\mathsf{relevantRelation}.\mathsf{RelatedEntity}
+}
+\]
+
+Here, $\sqcap$ denotes class intersection, while $\exists\,R.C$ denotes an existential restriction: the set of individuals that participate
+in at least one relation \(R\) to an individual belonging to class \(C\).
+
+Thus,
+\[
+\exists\,\mathsf{relevantRelation}.\mathsf{RelatedEntity}
+\]
+
+denotes the class of all individuals that have at least one
+\code{ex:relevantRelation} relation to an instance of
+\code{ex:RelatedEntity}.
+
+The corresponding OWL 2 class definition can be serialized in Turtle as
+follows:
+
+\begin{lstlisting}[
+    language=turtle,
+    caption={OWL/Turtle representation of a Description Logic class definition.},
+    label={lst:dl-owl-example}
+]
+@prefix ex:   <https://example.org/ontology/> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ex:DerivedEntity
+    a owl:Class ;
+    rdfs:label "derived entity"@en ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            ex:BaseEntity
+            [
+                a owl:Restriction ;
+                owl:onProperty ex:relevantRelation ;
+                owl:someValuesFrom ex:RelatedEntity
+            ]
+        )
+    ] .
+\end{lstlisting}
+
+The three representations therefore correspond as follows:
+
+{\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{L{0.23\linewidth}L{0.70\linewidth}}
+\toprule
+\textbf{Representation} & \textbf{Expression} \\
+\midrule
+
+Informal &
+An entity is a DerivedEntity if it is a BaseEntity and has at least one
+relevantRelation to a RelatedEntity. \\
+
+Predicate logic &
+\(
+\mathrm{DerivedEntity}(x)
+\iff
+\mathrm{BaseEntity}(x)
+\land
+\exists y\,
+(
+\mathrm{relevantRelation}(x,y)
+\land
+\mathrm{RelatedEntity}(y)
+)
+\) \\
+
+Description Logic &
+\(
+\mathsf{DerivedEntity}
+\equiv
+\mathsf{BaseEntity}
+\sqcap
+\exists\,\mathsf{relevantRelation}.\mathsf{RelatedEntity}
+\) \\
+
+OWL 2 &
+\code{owl:equivalentClass},
+\code{owl:intersectionOf},
+\code{owl:Restriction},
+\code{owl:onProperty}, and
+\code{owl:someValuesFrom}. \\
+
+\bottomrule
+\end{longtable}
+}
+
+The intended inference is therefore:
+
+\[
+\mathsf{BaseEntity}(a)
+\quad+\quad
+\mathsf{relevantRelation}(a,b)
+\quad+\quad
+\mathsf{RelatedEntity}(b)
+\]
+\[
+\Downarrow
+\]
+\[
+\boxed{
+\mathsf{DerivedEntity}(a)
+}
+\]
+
+For example, the asserted instance data may be:
+
+\begin{lstlisting}[
+    language=turtle,
+    caption={Example asserted individuals.}
+]
+ex:item01
+    a ex:BaseEntity ;
+    ex:relevantRelation ex:relatedItem01 .
+
+ex:relatedItem01
+    a ex:RelatedEntity .
+\end{lstlisting}
+
+If a reasoner supports the OWL constructs used above, it may therefore infer:
+
+\begin{lstlisting}[
+    language=turtle,
+    caption={Example inferred class membership.}
+]
+ex:item01
+    a ex:DerivedEntity .
+\end{lstlisting}
+
+Students should distinguish the final inferred triple from the asserted input.
+The point of the exercise is not merely to write the expected classification
+into the RDF graph, but to define formal axioms from which the classification
+can be derived.
+
+\begin{tutornote}
+This example is intended to demonstrate the correspondence between different
+levels of formalization.
+
+The important conceptual mapping is:
+
+\[
+\begin{aligned}
+\text{class conjunction}
+&\longleftrightarrow
+\sqcap
+\longleftrightarrow
+\code{owl:intersectionOf},
+\\[4pt]
+\text{existential restriction}
+&\longleftrightarrow
+\exists R.C
+\longleftrightarrow
+\code{owl:someValuesFrom},
+\\[4pt]
+\text{class equivalence}
+&\longleftrightarrow
+\equiv
+\longleftrightarrow
+\code{owl:equivalentClass}.
+\end{aligned}
+\]
+
+During teaching, emphasize that Turtle is only a serialization syntax. The
+formal meaning is supplied by the OWL semantics, while Description Logic gives
+a compact notation for the same class expression.
+
+Students should therefore not infer that the Turtle syntax itself constitutes
+the reasoning formalism.
+\end{tutornote}
+
+% ============================================================
+\section{Query or Evaluation Requirement}
+% ============================================================
+
+Each submission must include at least one query, test, or evaluation procedure
+that demonstrates the required result.
+
+For example:
+
+\begin{lstlisting}[
+    language=SQL,
+    caption={Generic query example.}
+]
+SELECT item, result
+FROM derived_results
+WHERE result IS NOT NULL;
+\end{lstlisting}
+
+Expected output should contain at least one result that can be traced back to
+the submitted model and processing procedure.
+
+% ============================================================
+\section{Technology Options}
+% ============================================================
+
+Students may use one of the supported workflows.
+
+\subsection{Option A: Graphical Tool}
+
+\begin{enumerate}
+    \item Open or create the project.
+    \item Load the required input.
+    \item Inspect the model or data structure.
+    \item Execute the required processing step.
+    \item Verify and export the result.
+\end{enumerate}
+
+\subsection{Option B: Command-Line Workflow}
+
+A command-line workflow may resemble:
+
+\begin{lstlisting}[language=bash]
+tool --validate input/example.dat
+
+tool \
+    --input input/example.dat \
+    --output results/output.dat
+\end{lstlisting}
+
+\subsection{Option C: Programming-Language Workflow}
+
+Students may implement the workflow in a supported programming language,
+provided that dependencies and execution commands are documented clearly.
+
+\begin{tutornote}
+Before the assignment session, verify that the listed tools remain available
+and that the example commands still work with the versions used in the
+teaching environment.
+
+Keep implementation-specific troubleshooting information here rather than
+placing it in the student instructions unless students genuinely need it.
+\end{tutornote}
+
+% ============================================================
+\section{Minimal Programming Example}
+% ============================================================
+
+The following skeleton illustrates a generic processing workflow:
+
+\begin{lstlisting}[
+    language=Python,
+    caption={Minimal processing skeleton.}
+]
+def load_input(path):
+    # Load student data.
+    pass
+
+def process(data):
+    # Apply the required transformation.
+    pass
+
+def evaluate(result):
+    # Produce the required output.
+    pass
+
+def main():
+    data = load_input("input/example.dat")
+    result = process(data)
+    evaluate(result)
+
+if __name__ == "__main__":
+    main()
+\end{lstlisting}
+
+% ============================================================
+\section{Optional Validation}
+% ============================================================
+
+Additional validation may be included where appropriate.
+
+Possible checks include:
+
+\begin{itemize}
+    \item required fields are present;
+    \item identifiers are unique;
+    \item values satisfy their intended type constraints;
+    \item relationships point to valid entities;
+    \item generated results can be reproduced from the submitted input.
+\end{itemize}
+
+% ============================================================
+\section{Deliverables}
+% ============================================================
+
+Each group must submit a repository containing the artifacts required to
+reproduce the work.
+
+\subsection{Repository Structure}
+
+\begin{lstlisting}[language=bash]
+assignment-project/
+|-- README.md
+|-- report.pdf
+|-- input/
+|   `-- example.dat
+|-- model/
+|   `-- model.ext
+|-- queries/
+|   `-- example-query.ext
+|-- results/
+|   `-- output.txt
+|-- src/
+|   `-- ...
+`-- LICENSE
+\end{lstlisting}
+
+\subsection{README Requirements}
+
+The \code{README.md} should include:
+
+\begin{enumerate}
+    \item project title and group members;
+    \item selected problem or task;
+    \item design overview;
+    \item description of major files;
+    \item execution instructions;
+    \item expected output;
+    \item explanation of derived results;
+    \item known limitations.
+\end{enumerate}
+
+\subsection{Required Submission Components}
+
+{\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{L{0.25\linewidth}L{0.68\linewidth}}
+\toprule
+\textbf{Repository item} & \textbf{Requirement} \\
+\midrule
+
+\code{README.md} &
+Explains the project, repository structure, execution procedure, and expected
+results. \\
+
+\code{report.pdf} &
+Explains the design rationale, implementation, results, limitations, and
+relevant discussion. \\
+
+\code{model/} &
+Contains the principal student-authored representation. \\
+
+\code{queries/} &
+Contains the required queries, tests, or analysis procedures. \\
+
+\code{results/} &
+Contains saved output sufficient to demonstrate the reported results. \\
+
+\code{src/} &
+Contains source code or configuration files when applicable. \\
+
+\bottomrule
+\end{longtable}
+}
+
+% ============================================================
+\section{Assessment Rubric}
+% ============================================================
+
+\begin{longtable}{
+    p{0.25\linewidth}
+    p{0.10\linewidth}
+    p{0.55\linewidth}
+}
+\toprule
+
+\textbf{Criterion}
+&
+\textbf{Weight}
+&
+\textbf{Indicators}
+\\
+
+\midrule
+
+Completeness
+&
+25\%
+&
+Required resources are present and the submitted artifact covers the
+specified problem. \\
+
+Conceptual quality
+&
+25\%
+&
+Important categories and relationships are distinguished correctly and
+meaningfully. \\
+
+Processing and evaluation
+&
+30\%
+&
+At least one non-trivial result is derived and demonstrated reproducibly. \\
+
+Documentation
+&
+20\%
+&
+Repository structure, README, report, and execution instructions are complete
+and understandable. \\
+
+\bottomrule
+\end{longtable}
+
+\begin{tutornote}
+The rubric above is visible to students and should therefore contain the
+official assessment criteria.
+
+Use this note only for internal interpretation of those criteria: borderline
+cases, expected evidence, recurrent grading issues, or examples of what should
+and should not receive full credit.
+
+Do not introduce a hidden criterion here that is absent from the published
+rubric.
+\end{tutornote}
+
+% ============================================================
+\section{Common Pitfalls}
+% ============================================================
+
+\begin{enumerate}
+
+    \item
+    \textbf{Manually inserting expected results.}
+    Results that are supposed to be derived should not simply be copied into
+    the output.
+
+    \item
+    \textbf{Confusing categories and individual examples.}
+    A general concept and a particular instance should be represented
+    separately.
+
+    \item
+    \textbf{Using labels as a substitute for structure.}
+    Human-readable text does not replace explicit relationships in the model.
+
+    \item
+    \textbf{Reporting results without a reproducible procedure.}
+    The submitted files should make it possible to regenerate the result.
+
+\end{enumerate}
+
+\begin{tutornote}
+This section can accumulate observations from successive offerings of the
+course.
+
+For example, record which mistakes are genuinely conceptual and which usually
+result from software configuration. This information can help tutors diagnose
+student problems without adding unnecessary detail to the student handout.
+\end{tutornote}
+
+% ============================================================
+\section{Suggested Extensions}
+% ============================================================
+
+Students seeking an advanced implementation may:
+
+\begin{itemize}
+    \item introduce additional entity or relation types;
+    \item implement stronger validation;
+    \item compare alternative modeling approaches;
+    \item automate the processing pipeline;
+    \item evaluate the model against additional data;
+    \item discuss scalability or generalization.
+\end{itemize}
+
+% ============================================================
+\section{Conclusion}
+% ============================================================
+
+This assignment connects conceptual understanding with a reproducible technical
+artifact.
+
+A successful submission should make the relationship between
+
+\[
+\text{input}
+\rightarrow
+\text{representation}
+\rightarrow
+\text{processing}
+\rightarrow
+\text{result}
+\rightarrow
+\text{evaluation}
+\]
+
+explicit and independently inspectable.
+
+% ============================================================
+% APPENDIX
+% ============================================================
+
+\appendix
+
+\section{Additional Reference Material}
+
+Optional material that is useful for completing the assignment but would
+interrupt the main exposition may be placed in the appendix.
+
+\begin{tutornote}
+Teaching-only appendix material can also be kept here, including:
+
+\begin{itemize}
+    \item expected solution structure;
+    \item worked examples;
+    \item tutorial prompts;
+    \item likely student questions;
+    \item notes inherited from previous course offerings.
+\end{itemize}
+
+Because the complete environment disappears when
+\code{\string\tutornotesfalse} is selected, the same source file can remain the
+master copy for both editions.
+\end{tutornote}
+
+% ============================================================
+% BIBLIOGRAPHY
+% ============================================================
+
+\printbibliography
+
+\end{document}
