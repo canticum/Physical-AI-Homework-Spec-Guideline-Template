@@ -23,16 +23,17 @@
 % PACKAGES
 % ============================================================
 
-\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[a4paper,left=22mm,right=22mm,top=20mm,bottom=24mm,headheight=14pt,includehead,includefoot]{geometry}
 
-% XeLaTeX font system
+% XeLaTeX font system: Latin Modern body + mono
+\usepackage{lmodern}
 \usepackage{fontspec}
 \usepackage{unicode-math}
 
-\setmainfont{TeX Gyre Termes}
-\setsansfont{TeX Gyre Heros}
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
 \setmonofont{Latin Modern Mono}
-\setmathfont{TeX Gyre Termes Math}
+\setmathfont{Latin Modern Math}
 
 \usepackage{microtype}
 \usepackage{enumitem}
@@ -82,6 +83,15 @@
 }
 
 % ============================================================
+% HEADINGS
+% ============================================================
+
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+\titlespacing*{\section}{0pt}{*2.0}{*1.0}
+\titlespacing*{\subsection}{0pt}{*1.5}{*0.75}
+
+% ============================================================
 % PAGE STYLE
 % ============================================================
 
@@ -90,9 +100,10 @@
 \pagestyle{fancy}
 \fancyhf{}
 
-\lhead{\CourseTitle}
-\rhead{\AssignmentTitle}
-\cfoot{\thepage}
+\fancyhead[L]{\small\CourseTitle\ ·\ \AssignmentTitle}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\footrulewidth}{0pt}
 
 % ============================================================
 % LIST SETTINGS
